@@ -145,3 +145,5 @@ public class strings{
 
     }
 }
+//note -- equals -matches the content  and == --matches the refrence {strings have same rference if they are created by litrals ex--String name ="kirti";(this is litral creation , they store in string constrant pool(small part of pool))}
+//CompareTo --checks the laxographic comparision {output -ve,0,+ve}
