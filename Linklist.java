@@ -7,10 +7,12 @@ public class Linklist{
             this.next=null;
         }
     }
-    public static Node head;
-    public static Node tail;
+    // public static Node head;   //since the head is static so it will always be same for even new linklist object ,it will take the same old head created in 1st linklist since its static
+    // public static Node tail;
+    public  Node head;
+    public  Node tail;
     public static int size;
-    //add at first/start
+    //add at first start
     public void AddFirst(int data){
         Node newnode=new Node(data);
         size++;
@@ -160,8 +162,46 @@ public class Linklist{
         prev.next=prev.next.next;
         return;
     }
+    public Node findmiddle( Node head){
+        Node slow=head;
+        Node fast=head;
+               while(fast!=null&&fast.next!=null){
+            fast=fast.next.next;  //+2
+            slow=slow.next;   //+1
+        
+        }
+        return slow;  //slow is my mid node
+    }
+    public boolean palindrome(){
+        if(head==null||head.next==null){
+            return true;
+        }
+        //1.find mid
+        Node mid=findmiddle(head);
+        //2.reverse the 2nd half ll
+        Node prev=null;
+        Node curr= mid;
+        Node next;
+        while(curr!=null){
+            next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+        }
+        Node right=prev;  //right half head
+        Node left=head;   //left half head
+        //3.check both the halfs
+        while(right!=null){
+            if(right.data!=left.data){
+                return false;
+            }
+            right=right.next;
+            left=left.next;
+        }
+        return true;
+    }
     public static void main(String[]args){
-        Linklist ll=new Linklist();
+        Linklist ll=new Linklist();   //we are creating object bcoz functions inside class are not static
         // ll.head=new Node(1);
         // ll.head.next=new Node(2);
         ll.AddFirst(10);
@@ -177,5 +217,12 @@ public class Linklist{
         ll.print();
         ll.removefromnth(2);
         ll.print();
+        Linklist l2=new Linklist();
+        l2.AddLast(1);
+        l2.AddLast(2);
+        l2.AddLast(1);
+        System.out.println(l2.palindrome());
+
+
     }
 }
