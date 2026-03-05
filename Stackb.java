@@ -128,6 +128,63 @@ public class Stackb{
             return nextgreater;
 
         }
+        public static boolean Duplicateparenthesis(String str){
+            Stack<Character> s=new Stack<>();
+            for(int i=0;i<str.length();i++){
+                char ch=str.charAt(i);
+                if(ch!=')'){
+                    s.push(ch);
+                }else{
+                    int count=0;
+                    while(s.peek()!='('){
+                        s.pop();
+                        count++;
+                    }
+                    if(count<1){
+                        return true;
+                    }
+                    s.pop();
+
+                }
+            }
+            return false;
+        }
+        public static int MaxAreaHistogram(int height[]){
+            Stack<Integer> s=new Stack<>();
+            int nsl[]=new int[height.length];
+            int nsr[]=new int[height.length];
+            //next smaller in left
+            for(int i=0;i<height.length;i++){
+                while(!s.isEmpty()&&height[i]<=height[s.peek()]){
+                    s.pop();
+                }
+                if(s.isEmpty()){
+                    nsl[i]=-1;
+                }else{
+                    nsl[i]=s.peek();
+                }
+                s.push(i);
+            }
+            //next smaller in right
+            for(int i=height.length-1;i>=0;i--){
+                 while(!s.isEmpty()&&height[i]<=height[s.peek()]){
+                    s.pop();
+                }
+                if(s.isEmpty()){
+                    nsr[i]=height.length;
+                }else{
+                    nsr[i]=s.peek();
+                }
+                s.push(i);
+            }
+            int maxvol=0;
+            for(int i=0;i<height.length;i++){
+                int width=nsr[i]-nsl[i]-1;
+                int vol=width*height[i];
+                maxvol=Math.max(maxvol,vol);
+            }
+            return maxvol;
+        }
         public static void main(String[] args) {
             
         
@@ -170,5 +227,8 @@ public class Stackb{
         for(int i=0;i<result.length;i++){
             System.out.println(result[i]+" ");
         }
+        System.out.println(Duplicateparenthesis("(a+b)"));
+        int height[]={2,1,5,6,2,3};
+        System.out.println(MaxAreaHistogram(height));
     }
 }
