@@ -88,6 +88,35 @@ public class Greedy{
             id=i;
         }
     }
+    public static int chocola(Integer costVert[],Integer costHor[],int n,int m){
+        Arrays.sort(costVert,Collections.reverseOrder());
+        Arrays.sort(costHor,Collections.reverseOrder());
+        int h=0,v=0;
+        int hp=1,vp=1;  //vertical and horizontal pieces count
+        int cost=0;
+        while(h<costHor.length&&v<costVert.length){
+            if(costVert[v]<costHor[h]){
+                cost+=(costHor[h]*vp);
+                hp++;
+                h++;
+            }else{
+                cost+=(costVert[v]*hp);
+                vp++;
+                v++;
+            }
+        }
+        while(h<costHor.length){
+             cost+=(costHor[h]*vp);
+                hp++;
+                h++;
+        }
+        while(v<costVert.length){
+            cost+=(costVert[v]*hp);
+                vp++;
+                v++;
+        }
+        return cost;
+    }
 
     public static void main(String[]args){
         int start[]={1,3,0,5,8,5};
@@ -123,6 +152,11 @@ public class Greedy{
        for(int i=0;i<seq.size();i++){
         System.out.print(seq.get(i)+" ");
        }
+       Integer ver[]={2,1,3,1,4};
+       Integer hor[]={4,1,2};
+       int n=4;
+       int m=6;
+       System.out.println(chocola(ver, hor, n, m));
 
     }
 }
