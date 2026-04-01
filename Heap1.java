@@ -56,6 +56,39 @@ public class Heap1{
             return arr.size()==0;
         }
     }
+    public static void heapSort(int arr[]){
+        //step 1-build maxheap
+        int n=arr.length;
+        for(int i=n/2;i<=0;i--){
+            heapify1(arr,i,n);
+        }
+        //step 2 -push largest at end  --swap
+        for(int i=n-1;i>0;i--){
+            int temp=arr[0];
+            arr[0]=arr[i];
+            arr[i]=temp;
+            heapify1(arr,0,i);
+        }
+    }
+    public static void heapify1(int arr[],int i,int size){
+        int left=2*i+1;
+        int right=2*i+2;
+        int maxIdx=i;
+        if(left<size && arr[left]>arr[maxIdx]){
+            maxIdx=left;
+        }
+        if(right<size && arr[right]>arr[maxIdx]){
+            maxIdx=right;
+        }
+        if(maxIdx!=i){
+            //swap
+            int temp=arr[i];
+            arr[i]=arr[maxIdx];
+            arr[maxIdx]=temp;
+            heapify1(arr, maxIdx, size);
+        }
+    }
+    
     public static void main(String[] args) {
         Heap h=new Heap();
         h.add(2);
