@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 public class Heap1{
     static class Heap{
         ArrayList<Integer> arr=new ArrayList<>();
@@ -88,6 +89,51 @@ public class Heap1{
             heapify1(arr, maxIdx, size);
         }
     }
+    static class Point implements Comparable<Point>{
+        int x;
+        int y;
+        int dis;
+        int idx;
+        public Point(int x,int y,int dis,int idx){
+            this.x=x;
+            this.y=y;
+            this.dis=dis;
+            this.idx=idx;
+        }
+        @Override
+        public int compareTo(Point p2){
+            return this.dis-p2.dis;  //Ascending order
+        }
+    }
+    static class Weakest implements Comparable<Weakest>{
+        int idx;
+        int rowSum;
+        public Weakest(int idx,int rowSum){
+            this.idx=idx;
+            this.rowSum=rowSum;
+        }
+        @Override
+        public int compareTo(Weakest w2){
+            if(this.rowSum==w2.rowSum){
+                return this.idx-w2.idx;
+            }else{
+            return this.rowSum-w2.rowSum;
+        }}
+    }
+    static class Sliding implements Comparable<Sliding>{
+        int idx;
+        int val;
+        public Sliding(int val,int idx){
+            this.val=val;
+            this.idx=idx;
+        }
+        @Override
+        public int compareTo(Sliding s2){
+            return s2.val-this.val;  //decending order
+        }
+
+    }
+
     
     public static void main(String[] args) {
         Heap h=new Heap();
@@ -102,4 +148,79 @@ public class Heap1{
             h.remove();
         }
        // System.out.println(h.peek());
+       int pts[][]={{3,3},{5,-1},{-2,4}};
+       int k=2;
+       PriorityQueue<Point> pq=new PriorityQueue<>();
+       
+       for(int i=0;i<pts.length;i++){
+            int dis=pts[i][0]*pts[i][0]+pts[i][1]*pts[i][1];
+            pq.add(new Point(pts[i][0],pts[i][1],dis,i));
+       }
+       //for k cars
+       for(int i=0;i<k;i++){
+        // System.out.print(pq.peek().idx+" ");
+        // pq.remove();
+        //or we can directly remove and get
+        System.out.print("C"+pq.remove().idx+" ");
+        }
+         int ropes[]={2,3,3,4,6};
+        PriorityQueue<Integer> pq1=new PriorityQueue<>();
+        for(int i=0;i<ropes.length;i++){
+            pq1.add(ropes[i]);
+       }
+       int cost=0;
+       while(pq.size()>1){
+        int min=pq1.remove();
+        int min2=pq1.remove();
+        cost+=min+min2;
+        pq1.add(min+min2);
+       }
+       System.out.println("cost of connecting n ropes="+cost);
+       int weak[][]={{1,0,0,0},{1,1,1,1},{1,0,0,0},{1,0,0,0}};
+       int n=2;
+    //    int arr[]=new int[weak.length];
+    //    for(int i=0;i<arr.length;i++){
+    //      for(int j=0;j<weak[0].length;j++){
+    //         arr[i]+=weak[i][j];              //no need to create array
+    //      }
+    //    }
+       PriorityQueue<Weakest> w=new PriorityQueue<>();
+    //    for(int i=0;i<arr.length;i++){
+    //     w.add(new Weakest(i,arr[i]));
+    //    }
+    //    System.out.println(w.remove().idx+" "+w.remove().idx);
+        for(int i=0;i<weak.length;i++){
+            int count=0;
+            for(int j=0;j<weak[0].length;j++){
+                count+=weak[i][j]==1?1:0;
+            }
+            w.add(new Weakest(i,count));
+        }
+        for(int i=0;i<n;i++){
+            System.out.print("R"+w.remove().idx+" ");
+        }
+        //sliding window problem --maximum of all subarrays of size s
+        int arr[]={1,3,-1,-3,5,3,6,7};
+        int s=3;
+        int res[]=new int[arr.length-s+1];
+        PriorityQueue<Sliding> pq3=new PriorityQueue<>();
+        //1st window element
+        for(int i=0;i<s;i++){
+            pq3.add(new Sliding(arr[i],i));
+        }
+        res[0]=pq3.peek().val;
+        for(int i=s;i<arr.length;i++){
+            while(pq3.size()>0 && pq3.peek().idx<=i-s){
+                pq3.remove();
+            }
+            pq3.add(new Sliding(arr[i],i));
+            res[i-s+1]=pq3.peek().val;
+        }
+        for(int i=0;i<res.length;i++){
+            System.out.print(res[i]+" ");
+        }
+
+
+
+
     }}
