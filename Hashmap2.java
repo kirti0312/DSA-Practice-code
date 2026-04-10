@@ -1,6 +1,8 @@
 import java.util.*;
 public class Hashmap2{
-    public static boolean 
+    public static boolean anagram(String s,String t){
+        
+    }
     public static void main(String[]args){
     HashMap<Integer,Integer> hm=new HashMap<>();
        int[] nums={1,3,2,5,1,3,1,5,1};
